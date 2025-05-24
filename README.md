@@ -4,7 +4,7 @@
 
 ## 📸 صورة من المشروع
 
-![screenshot](screenshots/homepage.png)
+![screenshot](img.png)
 
 ## 🚀 الخصائص
 
