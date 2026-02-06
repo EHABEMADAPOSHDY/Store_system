@@ -1,25 +1,18 @@
-"""
-Django settings for lms project.
-"""
-
 from pathlib import Path
+import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-secret")
 
-# ========================
-# SECURITY
-# ========================
-SECRET_KEY = 'django-insecure-0l^=vmwe9!f49i=-^v7*dd&@q##_5(vj)wy&z^1tj&7tbxaaok'
 DEBUG = False
 
-ALLOWED_HOSTS = ['.railway.app']
+ALLOWED_HOSTS = [
+    ".railway.app",
+    "localhost",
+    "127.0.0.1",
+]
 
-
-# ========================
-# APPLICATIONS
-# ========================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -31,13 +24,9 @@ INSTALLED_APPS = [
     'lms_app',
 ]
 
-
-# ========================
-# MIDDLEWARE
-# ========================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ لازم هنا
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -47,21 +36,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-# ========================
-# URLS & WSGI
-# ========================
 ROOT_URLCONF = 'lms.urls'
-WSGI_APPLICATION = 'lms.wsgi.application'
 
-
-# ========================
-# TEMPLATES
-# ========================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # global templates
+        'DIRS': [BASE_DIR / 'templates'],  # مهم جداً
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,10 +54,8 @@ TEMPLATES = [
     },
 ]
 
+WSGI_APPLICATION = 'lms.wsgi.application'
 
-# ========================
-# DATABASE
-# ========================
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -85,48 +63,9 @@ DATABASES = {
     }
 }
 
-
-# ========================
-# AUTH PASSWORD VALIDATION
-# ========================
-AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
-
-
-# ========================
-# INTERNATIONALIZATION
-# ========================
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
-
-
-# ========================
-# STATIC FILES (Railway)
-# ========================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'lms_app' / 'static',
-]
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
-# ========================
-# MEDIA FILES
-# ========================
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-
-# ========================
-# DEFAULT PK
-# ========================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
