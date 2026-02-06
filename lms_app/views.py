@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect , get_object_or_404
+from django.db.models import Q
 from .models import *
-from .froms import *
+from .forms import *
 # Create your views here.
 def index(request):
     if request.method == 'POST':
@@ -26,7 +27,7 @@ def index(request):
     return render(request, 'pages/index.html' , context)
 
 def update(request, id ):
-    book_id = Book.objects.get(id=id)
+    book_id = get_object_or_404(Book , id=id)
     if request.method=='POST':
         book_save = BookForm(request.POST , request.FILES , instance=book_id)
         if book_save.is_valid():
@@ -47,7 +48,7 @@ def books(request):
     if 'search_name' in request.GET:
         title = request.GET['search_name']
         if title:
-            search = search.filter(title__icontains=title)
+            search = search.order_by('-id').filter(Q(title__icontains=title))
             
     context = {
         'category':Category.objects.all(),
