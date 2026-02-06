@@ -27,7 +27,7 @@ def index(request):
     return render(request, 'pages/index.html' , context)
 
 def update(request, id ):
-    book_id = get_object_or_404(Book , id=id)
+    book_id = Book.objects.get(id=id)
     if request.method=='POST':
         book_save = BookForm(request.POST , request.FILES , instance=book_id)
         if book_save.is_valid():
