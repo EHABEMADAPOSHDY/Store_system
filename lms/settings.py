@@ -3,8 +3,11 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-secret")
 
+# ======================
+# SECURITY
+# ======================
+SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-secret-key")
 DEBUG = False
 
 ALLOWED_HOSTS = [
@@ -13,6 +16,10 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
+
+# ======================
+# APPS
+# ======================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,6 +31,10 @@ INSTALLED_APPS = [
     'lms_app',
 ]
 
+
+# ======================
+# MIDDLEWARE
+# ======================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -36,13 +47,28 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'lms.urls'
 
+# ======================
+# URLS / WSGI
+# ======================
+ROOT_URLCONF = 'lms.urls'
+WSGI_APPLICATION = 'lms.wsgi.application'
+
+
+# ======================
+# TEMPLATES  (ده المهم)
+# ======================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # مهم جداً
+
+        # لازم فولدر templates يكون في root المشروع
+        'DIRS': [
+            BASE_DIR / 'templates',
+        ],
+
         'APP_DIRS': True,
+
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -54,8 +80,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'lms.wsgi.application'
 
+# ======================
+# DATABASE
+# ======================
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -63,9 +91,18 @@ DATABASES = {
     }
 }
 
+
+# ======================
+# STATIC FILES
+# ======================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+
+# ======================
+# DEFAULT PK
+# ======================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
