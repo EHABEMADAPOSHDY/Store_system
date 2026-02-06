@@ -3,20 +3,23 @@ Django settings for lms project.
 """
 
 from pathlib import Path
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+# ========================
 # SECURITY
+# ========================
 SECRET_KEY = 'django-insecure-0l^=vmwe9!f49i=-^v7*dd&@q##_5(vj)wy&z^1tj&7tbxaaok'
 DEBUG = False
 
 ALLOWED_HOSTS = ['.railway.app']
 
 
-# Application definition
+# ========================
+# APPLICATIONS
+# ========================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,10 +31,15 @@ INSTALLED_APPS = [
     'lms_app',
 ]
 
+
+# ========================
+# MIDDLEWARE
+# ========================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # ✅ لازم هنا
+
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -39,14 +47,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# ========================
+# URLS & WSGI
+# ========================
 ROOT_URLCONF = 'lms.urls'
+WSGI_APPLICATION = 'lms.wsgi.application'
 
 
-# Templates
+# ========================
+# TEMPLATES
+# ========================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'templates'],  # global templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -59,10 +74,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'lms.wsgi.application'
 
-
-# Database
+# ========================
+# DATABASE
+# ========================
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -71,31 +86,29 @@ DATABASES = {
 }
 
 
-# Password validation
+# ========================
+# AUTH PASSWORD VALIDATION
+# ========================
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 
-# Internationalization
+# ========================
+# INTERNATIONALIZATION
+# ========================
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
 
-# Static files (Railway-ready)
+# ========================
+# STATIC FILES (Railway)
+# ========================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -105,10 +118,15 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media
+
+# ========================
+# MEDIA FILES
+# ========================
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-# Default primary key field type
+# ========================
+# DEFAULT PK
+# ========================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
